@@ -1,0 +1,11 @@
+//noinspection GroovyUnusedAssignment
+startingVersion = '1.0.0'
+
+//noinspection GroovyUnusedAssignment
+tagPrefix = 'v'
+
+autobump {
+    majorPattern = ~/(?m)^\[bump-major\]$/
+    minorPattern = ~/(?m)^\[bump-minor\]$/
+    patchPattern = ~/(?m)^\[bump-patch\]$/
+}
