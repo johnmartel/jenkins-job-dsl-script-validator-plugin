@@ -27,6 +27,12 @@ codenarc {
     toolVersion = '1.0'
 }
 
+test {
+    testLogging {
+        showStandardStreams = true
+    }
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true
