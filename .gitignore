@@ -83,6 +83,8 @@ gradle-app.setting
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
+*.iml
+*.ipr
 
 # Gradle:
 .idea/**/gradle.xml

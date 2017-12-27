@@ -299,7 +299,7 @@ ruleset {
     InterfaceName
     InterfaceNameSameAsSuperInterface
     MethodName {
-        doNotApplyToClassNames = '*Test'
+        doNotApplyToClassNames = 'Given*,*Test'
     }
     ObjectOverrideMisspelledMethodName
     PackageName

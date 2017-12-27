@@ -1,5 +1,6 @@
 plugins {
     id 'groovy'
+    id 'java-gradle-plugin'
     id 'codenarc'
     id 'jacoco'
     id 'idea'
@@ -11,11 +12,35 @@ repositories {
     jcenter()
 }
 
-dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.12'
-    compile gradleApi()
+sourceSets {
+    acceptanceTest {
+        groovy.srcDir file('src/acceptance-test/groovy')
+    }
+}
 
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+configurations {
+    all {
+        resolutionStrategy {
+            failOnVersionConflict()
+        }
+    }
+}
+
+dependencies {
+    implementation 'org.codehaus.groovy:groovy-all:2.4.12'
+    implementation gradleApi()
+
+    testImplementation('org.spockframework:spock-core:1.1-groovy-2.4') {
+        exclude module: 'groovy-all'
+    }
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'cglib:cglib-nodep:3.2.5'
+
+    acceptanceTestImplementation sourceSets.main.output
+    acceptanceTestImplementation configurations.testImplementation
+    acceptanceTestImplementation sourceSets.test.output
+
+    acceptanceTestRuntime configurations.testRuntime
 }
 
 codenarc {
@@ -33,6 +58,21 @@ test {
     }
 }
 
+task acceptanceTest(type: Test) {
+    mustRunAfter test
+    group = 'Verification'
+    description = 'Runs all acceptance tests (possibly long running).'
+
+    testClassesDirs = sourceSets.acceptanceTest.output.classesDirs
+    classpath = sourceSets.acceptanceTest.runtimeClasspath
+
+    testLogging {
+        showStandardStreams = true
+    }
+}
+
+check.dependsOn acceptanceTest
+
 jacocoTestReport {
     reports {
         xml.enabled true
@@ -44,5 +84,21 @@ jacocoTestReport {
 tag {
     message {
         "Release version ${version}"
+    }
+}
+
+gradlePlugin {
+    plugins {
+        jenkinsJobDslScriptValidatorPlugin {
+            id = 'ca.coglinc.jenkins.jobdsl.validator'
+            implementationClass = 'ca.coglinc.plugins.jenkins.jobdsl.validator.JenkinsJobDslValidatorPlugin'
+        }
+    }
+}
+
+idea {
+    module {
+        testSourceDirs += project.sourceSets.acceptanceTest.groovy.srcDirs
+        testSourceDirs += project.sourceSets.acceptanceTest.resources.srcDirs
     }
 }
