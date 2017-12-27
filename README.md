@@ -65,6 +65,12 @@ dependencies {
 }
 ```
 
+### Dependencies Version Conflicts
+
+Having dependencies on Jenkins artifacts means that this comes with **LOTS** of version conflicts. As we believe in
+reproducible builds, we always resolve our conflicts explicitly. If you are like us, head over to
+[build.gradle](build.gradle) for a hint on the conflict resolutions we had to resolve, you might want to do the same.
+
 ## References
 
 The following were used to develop this plugin, many thanks to their authors and the community behind them:

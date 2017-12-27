@@ -9,7 +9,12 @@ plugins {
 group = 'ca.coglinc.plugins.jenkins.jobdsl.validator'
 
 repositories {
-    jcenter()
+    jcenter() {
+        artifactUrls 'https://repo.jenkins-ci.org/public/'
+    }
+    maven {
+        url 'https://repo.jenkins-ci.org/public/'
+    }
 }
 
 sourceSets {
@@ -22,15 +27,77 @@ configurations {
     all {
         resolutionStrategy {
             failOnVersionConflict()
+            force 'commons-collections:commons-collections:3.2.2'
+            force 'org.jenkins-ci.modules:instance-identity:2.1'
+            force 'org.jenkins-ci.modules:slave-installer:1.6'
+            force 'org.jenkins-ci.ui:jquery-detached:1.2.1'
+            force 'org.slf4j:slf4j-api:1.7.25'
+            force 'commons-codec:commons-codec:1.9'
+            force 'org.eclipse.jetty:jetty-util:9.2.15.v20160210'
+            force 'org.eclipse.jetty:jetty-io:9.2.15.v20160210'
+            force 'org.apache.maven.wagon:wagon-provider-api:2.4'
+            force 'org.codehaus.plexus:plexus-utils:3.0.10'
+            force 'org.jenkins-ci:trilead-ssh2:build-217-jenkins-11'
+            force 'org.kohsuke.stapler:stapler:1.253'
+            force 'org.jenkins-ci:annotation-indexer:1.12'
+            force 'commons-beanutils:commons-beanutils:1.8.3'
+            force 'commons-lang:commons-lang:2.6'
+            force 'commons-logging:commons-logging:1.2'
+            force 'jaxen:jaxen:1.1-beta-11'
+            force 'org.springframework:spring-core:2.5.6.SEC03'
+            force 'org.springframework:spring-beans:2.5.6.SEC03'
+            force 'org.springframework:spring-context:2.5.6.SEC03'
+            force 'net.java.dev.jna:jna:4.2.1'
+            force 'org.sonatype.plexus:plexus-cipher:1.7'
+            force 'org.jvnet.localizer:localizer:1.24'
+            force 'commons-fileupload:commons-fileupload:1.3.1-jenkins-2'
+            force 'com.jcraft:jzlib:1.1.3-kohsuke-1'
+            force 'com.google.code.findbugs:jsr305:2.0.1'
         }
+    }
+
+    // see https://issues.jenkins-ci.org/browse/JENKINS-45512
+    compileOnly {
+        exclude group: 'xalan'
+        exclude group: 'xerces'
+        exclude module: 'groovy-all'
+    }
+    testRuntimeOnly {
+        exclude group: 'xalan'
+        exclude group: 'xerces'
+        exclude module: 'groovy-all'
     }
 }
 
 dependencies {
     implementation 'org.codehaus.groovy:groovy-all:2.4.12'
     implementation gradleApi()
+    implementation('org.spockframework:spock-core:1.1-groovy-2.4') {
 
-    testImplementation('org.spockframework:spock-core:1.1-groovy-2.4') {
+    // Jenkins test harness dependencies
+    compileOnly('org.jenkins-ci.main:jenkins-test-harness:2.8') {
+        exclude module: 'org.eclipse.sisu.plexus'
+    }
+    compileOnly('org.jenkins-ci.main:jenkins-war:2.89.2') {
+        exclude group: 'org.apache.ant', module: 'ant'
+        exclude group: 'org.jenkins-ci', module: 'symbol-annotation'
+        exclude group: 'commons-io', module: 'commons-io'
+    }
+    testRuntimeOnly('org.jenkins-ci.main:jenkins-test-harness:2.8') {
+        exclude module: 'org.eclipse.sisu.plexus'
+    }
+    testRuntimeOnly('org.jenkins-ci.main:jenkins-war:2.89.2') {
+        exclude group: 'org.apache.ant', module: 'ant'
+        exclude group: 'org.jenkins-ci', module: 'symbol-annotation'
+        exclude group: 'commons-io', module: 'commons-io'
+    }
+
+    // Job DSL plugin including plugin dependencies
+    compileOnly 'org.jenkins-ci.plugins:job-dsl:1.66'
+    compileOnly 'org.jenkins-ci.plugins:structs:1.6'
+    testRuntimeOnly 'org.jenkins-ci.plugins:job-dsl:1.66'
+    testRuntimeOnly 'org.jenkins-ci.plugins:structs:1.6'
+
         exclude module: 'groovy-all'
     }
     testImplementation 'junit:junit:4.12'
