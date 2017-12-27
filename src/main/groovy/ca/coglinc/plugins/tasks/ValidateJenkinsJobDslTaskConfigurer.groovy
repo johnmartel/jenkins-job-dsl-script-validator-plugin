@@ -11,7 +11,7 @@ class ValidateJenkinsJobDslTaskConfigurer implements ProjectConfigurer {
     @Override
     void configure(@Nonnull Project project) {
         Task validateJenkinsJobDsl = createValidateJenkinsJobDslTask(project)
-        makeCheckDependsOnValidateJenkinsJobDsl(project, validateJenkinsJobDsl)
+        setCheckDependsOnValidateJenkinsJobDsl(project, validateJenkinsJobDsl)
     }
 
     private Task createValidateJenkinsJobDslTask(Project project) {
@@ -23,7 +23,7 @@ class ValidateJenkinsJobDslTaskConfigurer implements ProjectConfigurer {
         return task
     }
 
-    private void makeCheckDependsOnValidateJenkinsJobDsl(Project project, Task validateJenkinsJobDslTask) {
+    private void setCheckDependsOnValidateJenkinsJobDsl(Project project, Task validateJenkinsJobDslTask) {
         if (project.tasks.findByName('check') != null) {
             project.tasks.check.dependsOn validateJenkinsJobDslTask
         }
