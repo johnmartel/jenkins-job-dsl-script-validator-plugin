@@ -1,5 +1,7 @@
 # jenkins-job-dsl-script-validator
 
+![Build status](https://travis-ci.org/johnmartel/jenkins-job-dsl-script-validator-plugin.svg?branch=master)
+
 A Gradle plugin that allows validating your Jenkins Job DSL scripts in a project.
 
 ## Building
