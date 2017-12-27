@@ -14,7 +14,7 @@ class GivenAProjectThatAppliesTheJenkinsJobDslScriptValidatorPlugin extends Spec
     final TemporaryFolder projectDir = new TemporaryFolder()
 
     @Unroll
-    void 'Can apply plugin to project with Gradle version #gradleVersion'() {
+    void 'Can apply plugin to project with Gradle version #gradleVersion'(String gradleVersion) {
         given:
         File buildFile = projectDir.newFile('build.gradle')
         buildFile << """
