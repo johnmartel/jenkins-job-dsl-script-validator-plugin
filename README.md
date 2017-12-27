@@ -56,11 +56,11 @@ dependencies {
     // Jenkins test harness dependencies
     jenkins 'org.jenkins-ci.main:jenkins-test-harness:2.8'
     jenkins 'org.jenkins-ci.main:jenkins-war:2.89.2'
-    jenkins "org.jenkins-ci.main:jenkins-war:2.89.2:war-for-test@jar"
+    jenkins 'org.jenkins-ci.main:jenkins-war:2.89.2:war-for-test@jar'
     
     // Job DSL plugin including plugin dependencies
-    jenkins "org.jenkins-ci.plugins:job-dsl:1.66"
-    jenkins "org.jenkins-ci.plugins:job-dsl:1.66@jar"
+    jenkins 'org.jenkins-ci.plugins:job-dsl:1.66'
+    jenkins 'org.jenkins-ci.plugins:job-dsl:1.66@jar'
     jenkins 'org.jenkins-ci.plugins:structs:1.6@jar'
 }
 ```
